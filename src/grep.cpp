@@ -5,6 +5,7 @@
 #include <thread>
 #include <filesystem>
 #include <unordered_map>
+#include <chrono>
 
 #include "grep.h"
 
@@ -14,6 +15,8 @@ Grep::Grep(size_t number_of_threads, std::string result_file, std::string log_fi
 
 
 void Grep::run(std::string starting_path, std::string pattern) {
+
+  auto start_clock = std::chrono::high_resolution_clock::now();
 
   ThreadPool pool{_thread_number};
   
@@ -32,6 +35,10 @@ void Grep::run(std::string starting_path, std::string pattern) {
   }
 
   pool.wait();
+
+  auto end_clock = std::chrono::high_resolution_clock::now();
+
+  _time = std::chrono::duration_cast<std::chrono::milliseconds>(end_clock - start_clock).count();
 }
 
 
@@ -98,7 +105,7 @@ void Grep::output_results() {
   std::cout << "Result file: " << _result_file << std::endl;
   std::cout << "Log file: " << _log_file << std::endl;
   std::cout << "Used threads: " << _thread_number << std::endl;
-  std::cout << "Elapsed time: " << "" << std::endl; 
+  std::cout << "Elapsed time: " << _time << " (ms)" << std::endl; 
 }
 
 

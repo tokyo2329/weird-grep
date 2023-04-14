@@ -52,6 +52,7 @@ private:
 
   size_t _thread_number;
   std::string _result_file, _log_file;
+  int _time;
 
   std::vector<_Proccessed> _proccessed;
   std::mutex _processed_mtx;
