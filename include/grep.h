@@ -8,7 +8,6 @@
 class Grep {
 
 public:
-
   explicit Grep(size_t, std::string, std::string);
 
   void run(std::string, std::string);
