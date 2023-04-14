@@ -24,6 +24,10 @@ void Grep::run(std::string starting_path, std::string pattern) {
 
   for(auto& entry : recursive_directory_iterator(starting_path, directory_options::skip_permission_denied)) {
     
+    if(entry.path().filename().string() == _log_file 
+      or entry.path().filename().string() == _result_file)
+      continue;
+
     if(is_regular_file(entry) and entry.path().extension() == ".txt") {
 
       std::function<void()> f = [this, entry, pattern](){
